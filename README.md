@@ -1,18 +1,18 @@
 # Hi 👋, I'm Henrique
 
-I'm a fullstack developer with my mind in the backend and my heart beating in the frontend.
+I'm a fullstack developer — my mind runs on backend logic, but my heart beats with frontend pixels.
 
-I work with Django + Django REST Framework to build robust APIs, and React + Next.js to deliver fast, responsive interfaces with that special touch of care in the layout.
+I build robust APIs using Python, Django, and Django REST Framework, and craft fast, responsive UIs with React and Next.js, always adding that extra touch of care to every layout.
 
-I love writing clean, direct code without any fuss — zen style from someone who has already tamed the chaos of many bugs.
+I write clean, efficient code with a Zen-like mindset — forged in the fire of many chaotic bugs, now tamed. 🧘‍♂️🐛
 
 ## About Me
 
-- 🔭 I'm currently exploring new opportunities
-- 🌱 I'm passionate about **web development** and **software engineering**
-- 💬 Ask me about **Python**, **C/C++**, **Java** and **web technologies**
-- 📫 How to reach me: [henriquedan1702@gmail.com](mailto:henriquedan1702@gmail.com)
-- ⚡ Fun fact: I love working with multiple programming languages! 🚀
+- 🔭 Currently exploring new opportunities
+- 🌱 Passionate about web development and software engineering
+- 💬 Ask me about Python, C/C++, Java, and modern web tech
+- 📫 Reach me at: [henriquedan1702@gmail.com](mailto:henriquedan1702@gmail.com)
+- ⚡ Fun fact: I love juggling different programming languages — code polyglot at heart 💻✨
 
 ## Connect with Me
 
@@ -46,6 +46,8 @@ I love writing clean, direct code without any fuss — zen style from someone wh
 **Tools:**
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![JetBrains](https://img.shields.io/badge/JetBrains-000000?style=for-the-badge&logo=jetbrains&logoColor=white)
 
 ## GitHub Stats
 
