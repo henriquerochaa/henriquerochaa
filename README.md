@@ -1,44 +1,92 @@
 # Hi 👋, I'm Henrique
 
-**Backend Engineer | Data Engineer in Training**
+**Data Engineer (Entry-Level) | Backend Background**
 
-I build robust APIs with Python & Django, craft responsive UIs with React & Next.js, 
-and I'm actively deepening my expertise in data engineering — designing scalable pipelines, 
-optimizing data models, and ensuring data quality at scale.
-
-## What I'm Working On
-
-🔧 **Backend & APIs**
-- Python, Django, Django REST Framework
-- FastAPI, clean architecture patterns
-- Performance optimization & scalability
-
-📊 **Data Engineering (In Training)**
-- ETL/ELT pipelines & orchestration
-- Data modeling & warehousing concepts
-- SQL optimization & query performance
-- Building data observability & quality checks
-
-🎨 **Frontend**
-- React, Next.js, responsive design
-- Modern web UX patterns
-
-## Current Focus
-
-🌱 Transitioning into Data Engineering — studying distributed systems, pipeline design, 
-and real-world data workflows. Learning by building.
-
-## What Drives Me
-
-- Clean, efficient code with intention
-- Systems that scale beyond the happy path
-- Understanding the "why" behind architectural decisions
-- Solving problems that touch data, backend, and user experience
-
-## Let's Connect
-
-📧 henriquedan1702@gmail.com
+I design and build data pipelines with a strong foundation in backend engineering.
+My focus is on creating reliable, scalable data workflows — from ingestion to transformation and delivery — following production-grade practices.
 
 ---
 
-**Most Used Languages** | GitHub Stats
+## 🚀 Data Engineering Projects
+
+### 📦 Batch Data Pipeline (Airflow + PostgreSQL + S3)
+
+* Built an end-to-end ETL pipeline ingesting data from public APIs
+* Data flow: API → staging (S3) → transformation → PostgreSQL (warehouse)
+* Orchestrated with Airflow (scheduling, retries, monitoring)
+* Implemented data quality checks (nulls, row counts, schema validation)
+* Optimized SQL queries, reducing execution time
+
+---
+
+### 🧱 Data Warehouse Modeling
+
+* Designed analytical models using **star schema (fact + dimension tables)**
+* Implemented Slowly Changing Dimensions (SCD Type 2)
+* Built queries focused on business metrics and performance
+
+---
+
+### ⚡ Streaming Pipeline (Kafka + Python)
+
+* Developed a near real-time pipeline consuming event streams
+* Applied transformations and aggregations
+* Structured data for downstream analytics use cases
+
+---
+
+## 🧰 Tech Stack
+
+**Data Engineering**
+
+* SQL (PostgreSQL)
+* Data Modeling (Star Schema, SCD)
+* ETL/ELT Design
+
+**Processing**
+
+* Python (Pandas)
+* PySpark (learning & experimentation)
+
+**Orchestration**
+
+* Apache Airflow
+
+**Cloud (Learning)**
+
+* AWS (S3, Lambda, Glue)
+
+**Backend (Differential)**
+
+* Python (Django, FastAPI)
+* REST APIs and scalable services
+
+---
+
+## 🎯 Current Focus
+
+* Building production-like data pipelines
+* Improving query performance and data modeling
+* Studying distributed systems and scalable architectures
+* Strengthening cloud-based data workflows
+
+---
+
+## 💡 What Drives Me
+
+* Systems that scale reliably under real-world constraints
+* Clean, maintainable data pipelines
+* Understanding trade-offs in architecture decisions
+* Solving problems where backend meets data
+
+---
+
+## 📫 Contact
+
+📧 [henriquedan1702@gmail.com](mailto:henriquedan1702@gmail.com)
+
+---
+
+## 📊 GitHub Stats
+
+<!-- You can keep your GitHub stats widget here -->
