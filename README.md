@@ -108,11 +108,14 @@ I document known limitations and distinguish implemented functionality from plan
 
 I maintain a personal knowledge base with **320+ structured study notes**, connecting data engineering concepts to practical implementation whenever possible.
 
-**Books completed**
-- *Fundamentals of Data Engineering*
-- *Decifrando Arquiteturas de Dados* (Understanding Data Architectures — translated title)
+### Technical Books
 
-**Additional technical reading:** *Fundamentos da Qualidade de Dados* (Fundamentals of Data Quality), *Data Engineering Design Patterns*, *Python para Análise de Dados* (Python for Data Analysis), and *SQL para Análise de Dados* (SQL for Data Analysis).
+- [Fundamentals of Data Engineering](https://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/) — Joe Reis & Matt Housley
+- [Deciphering Data Architectures](https://www.oreilly.com/library/view/deciphering-data-architectures/9781098150754/) — James Serra
+- [Data Quality Fundamentals](https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/) — Barr Moses, Lior Gavish & Molly Vorwerck
+- [Data Engineering Design Patterns](https://www.oreilly.com/library/view/data-engineering-design/9781098165826/) — Bartosz Konieczny
+- *Python for Data Analysis* — Wes McKinney
+- *SQL for Data Analysis* — Cathy Tanimura
 
 **Courses:** Coursera Data Engineering specialization (courses 1–4) and AWS Essential.
 
