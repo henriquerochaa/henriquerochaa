@@ -1,70 +1,145 @@
 # Henrique Daniel da Rocha
 
-**Software Engineer + Data Engineering | Python · SQL · AWS**
+**Software Engineer | Data Engineering | Python · SQL · AWS**
 
-[LinkedIn](https://www.linkedin.com/in/henrique-daniel-rocha/) · henriquedan1702@gmail.com
+[LinkedIn](https://www.linkedin.com/in/henrique-daniel-rocha/) · [Email](mailto:henriquedan1702@gmail.com)
 
-I build batch and incremental data pipelines that are contract-checked, tested and safe to re-run: ingestion with Python, transformations with dbt and DuckDB, orchestration with Airflow, publication to Postgres. I apply software engineering practices to data: input contracts, tests at every layer, static typing and CI. I have also taught programming in a vocational Systems Development program, and I am looking for my first data engineering role.
+I'm a Software Engineer focused on Data Engineering, building reliable batch data pipelines with Python, SQL, dbt, DuckDB, and Apache Airflow.
+
+I apply software engineering principles to data systems: explicit data contracts, automated testing, static typing, safe re-execution, and maintainable architecture.
+
+I have also taught programming in a vocational Systems Development program and am currently seeking my first professional opportunity in Data Engineering.
 
 **Education:** Software Engineering.
 
-**Start here:** [olist-delivery-review-pipeline](https://github.com/henriquerochaa/olist-delivery-review-pipeline) is the complete project, with tests and documented limits.
+**Start here:** [Olist Delivery Review Pipeline](https://github.com/henriquerochaa/olist-delivery-review-pipeline) — my most complete project, with automated tests, documented architectural decisions, and known limitations.
 
-## Focus
+---
 
-- **Software engineering:** backend (Python, Django, DRF), automated testing, static typing, CI
-- **Data engineering:** ETL/ELT, batch pipelines, incremental API ingestion, orchestration
-- **Modeling and architecture:** dimensional modeling, grain, medallion layers, warehouse, lake and lakehouse
-- **Stack:** Python, SQL, Airflow, dbt, DuckDB, Parquet, Postgres, GitHub Actions
-- **Cloud:** AWS (S3, IAM, VPC, RDS, Glue, Athena, Lambda), through study and labs
+## Technical Focus
 
-## Projects
+- **Software Engineering:** Python, Django, Django REST Framework, backend development, automated testing, static typing, CI
+- **Data Engineering:** ETL/ELT, batch pipelines, incremental ingestion, orchestration, data quality
+- **Data Architecture:** dimensional modeling, data grain, medallion architecture, data warehousing, data lakes, lakehouse concepts
+- **Technologies:** Python, SQL, Airflow, dbt, DuckDB, PostgreSQL, Parquet, GitHub Actions
+- **Cloud:** AWS (S3, IAM, VPC, RDS, Glue, Athena, Lambda) — coursework and hands-on labs
 
-### [olist-delivery-review-pipeline](https://github.com/henriquerochaa/olist-delivery-review-pipeline)
+---
 
-- **Problem:** how does delivery performance relate to review scores? Public Olist dataset, 8 sources, 550,759 rows.
-- **Result:** late orders average 2.27 stars versus 4.29 for early ones (99,441 orders). Descriptive, not causal.
-- **Flow:** CSV → Bronze (Parquet) → Silver and Gold (dbt) → Postgres (Neon), orchestrated by Airflow.
-- **Key decision:** publishing checks the last `dbt build` and refuses a failed Gold, or one older than what is already published, then loads in a single transaction with a least-privilege role.
-- **Known limits:** CSVs are read fully into memory, and concurrent runs of the same batch are not coordinated.
-- **Evidence:** [data contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) · [43 Python tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · [dbt models and tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) · [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow)
+## Featured Projects
 
-`Python` `dbt` `DuckDB` `Airflow` `Postgres`
+### [Olist Delivery Review Pipeline](https://github.com/henriquerochaa/olist-delivery-review-pipeline)
 
-### [bcb-indicators-pipeline](https://github.com/henriquerochaa/bcb-indicators-pipeline)
+**End-to-end batch data pipeline | Data Quality · Orchestration · Analytics**
 
-- **Status:** v1.0 in progress.
-- **Problem:** keep three Central Bank of Brazil series (USD PTAX, Selic target, monthly IPCA) up to date, incrementally and auditably.
-- **Flow:** SGS API → Bronze (append per batch) → Silver (latest batch per key, rejected records kept apart) → Gold (monthly).
-- **Key decision:** re-read window plus upsert on `(series, date)`, which captures retroactive revisions at the cost of re-reading recent data. Quality gate: `Bronze = Silver + rejected`.
-- **Also:** offline CI with recorded API responses and a contract test for upstream format changes.
+**Problem:** How does delivery performance relate to customer review scores?
+
+Built a batch data pipeline processing 8 public Olist datasets containing 550,759 source rows.
+
+**Results:**
+- Late deliveries average **2.27 stars**, compared with **4.29** for orders delivered before the estimated date, across an analysis of 99,441 orders.
+- Orders without reviews (768) or delivery dates (2,965) are classified separately rather than silently discarded.
+- Results are descriptive, not causal.
+
+**Architecture**
+
+```mermaid
+flowchart LR
+    A["8 CSV Sources<br/>Data Contracts"] --> B["Bronze<br/>Parquet"]
+    B --> C["Silver<br/>dbt Views"]
+    C --> D["Gold<br/>dbt Tables"]
+    D --> E[("PostgreSQL<br/>Neon")]
+
+    F["Apache Airflow"] -.-> B
+    F -.-> C
+    F -.-> D
+    F -.-> E
+```
+
+**Engineering decisions**
+
+- Source contracts and automated tests validate data before downstream processing.
+- Publication checks dbt execution results, rejects failed or stale Gold data, and loads PostgreSQL in a single transaction using a least-privilege role.
+- Batch identifiers support traceability and safe re-execution.
+
+**Known limitations:** CSV files are loaded fully into memory; concurrent executions of the same batch are not coordinated across processes.
+
+**Evidence:** [Data Contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) · [43 Python Tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · [dbt Models & Tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) · [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow)
+
+`Python` `Pandas` `dbt` `DuckDB` `Airflow` `PostgreSQL`
+
+---
+
+### [BCB Indicators Pipeline](https://github.com/henriquerochaa/bcb-indicators-pipeline)
+
+**Incremental Data Pipeline | In Development**
+
+**Problem:** Build an incremental, auditable pipeline for three Central Bank of Brazil indicators: USD PTAX, Selic target rate, and monthly IPCA.
+
+**Planned architecture:**
+
+SGS API → Bronze (append by batch) → Silver (latest valid record per key) → Gold (monthly analytical data).
+
+**Planned engineering decisions**
+
+- Rolling re-read windows and upserts keyed by `(series, date)` to capture retroactive revisions.
+- Explicit rejection tracking and batch-level reconciliation of received, accepted, and rejected records.
+- Parquet and DuckDB for a lightweight architecture, with offline tests using recorded API responses.
+
+**Implemented:** manually validated API contracts, recorded response fixtures, initial test scaffolding, CI workflow, and locked development environment.
+
+**Remaining for v1.0:** API client, Bronze/Silver/Gold processing, incremental and backfill commands, pipeline tests, and CI execution with recorded responses.
 
 `Python` `DuckDB` `Parquet` `GitHub Actions`
 
-## Principles
+---
 
-Re-runs must be safe · a contract or test failure stops the flow · grain is defined before the join · nothing is dropped silently · limits are documented, and what was not measured is not claimed.
+## Engineering Principles
 
-## Knowledge Base
+**Reliability** · **Data Quality** · **Maintainability** · **Simplicity** · **Transparency**
 
-320+ personal study notes on data engineering: lifecycle, architecture, ingestion, orchestration, storage, modeling, data quality, engineering patterns and AWS. Books read in full: *Fundamentals of Data Engineering* and *Decifrando Arquiteturas de Dados*. Four more read selectively, guided by the projects. Coursera Data Engineering courses 1 to 4 and AWS Essential.
+I prioritize safe re-execution, explicit data contracts, well-defined data grain, automated validation, and architectures that match actual requirements.
+
+I document known limitations and distinguish implemented functionality from planned improvements.
+
+---
+
+## Continuous Learning
+
+I maintain a personal knowledge base with **320+ structured study notes**, connecting data engineering concepts to practical implementation whenever possible.
+
+**Books completed**
+- *Fundamentals of Data Engineering*
+- *Decifrando Arquiteturas de Dados* (Understanding Data Architectures — translated title)
+
+**Additional technical reading:** *Fundamentos da Qualidade de Dados* (Fundamentals of Data Quality), *Data Engineering Design Patterns*, *Python para Análise de Dados* (Python for Data Analysis), and *SQL para Análise de Dados* (SQL for Data Analysis).
+
+**Courses:** Coursera Data Engineering specialization (courses 1–4) and AWS Essential.
 
 <details>
-<summary>Topics by area, and where each became practice</summary>
+<summary><strong>Explore my knowledge base and applied evidence</strong></summary>
 
-| Area | Topics | In projects |
-|---|---|:---:|
-| **Lifecycle and fundamentals** | 5 stages and 6 undercurrents, requirements, security, build vs buy, cost | study |
-| **Architecture** | Warehouse, lake, lakehouse, mesh, fabric, Lambda/Kappa, medallion, open table formats | practice (medallion) |
-| **Sources and ingestion** | Relational and NoSQL, APIs, batch vs streaming, ETL/ELT, CDC, Kafka/Kinesis | practice (batch, API) |
-| **Orchestration and DataOps** | Airflow, Terraform, observability, Great Expectations, data contracts | practice (Airflow, contracts) |
-| **Storage and querying** | Columnar vs row, object/block/file, indexes, joins, Redshift, graph and vector DBs, streaming windows | practice (Parquet, DuckDB) |
-| **Modeling and transformation** | Normalization, star schema, grain, Kimball/Inmon/Data Vault, SCD, dbt | practice (star schema, dbt) |
-| **Data quality** | Quality dimensions, testing, anomalies, lineage, reconciliation | practice |
-| **Engineering patterns** | Idempotency, error handling, ingestion, storage, observability | practice (idempotency) |
-| **Analytical Python and SQL** | Pandas, time series, cohorts, anomaly detection, CTEs | practice |
-| **AWS** | S3, EC2, IAM, VPC, RDS, DynamoDB, Lambda, Glue, Athena, CloudWatch | study and labs |
+| Area | Topics | Applied Evidence |
+|---|---|---|
+| **Fundamentals** | Data engineering lifecycle, requirements, security, cost, build vs. buy | Theoretical study |
+| **Architecture** | Warehouse, lake, lakehouse, mesh, fabric, medallion architecture | [Medallion layers](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) |
+| **Ingestion** | APIs, batch, streaming, ETL/ELT, CDC, Kafka, Kinesis | [Batch ingestion](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/src); incremental API ingestion in development |
+| **Orchestration & DataOps** | Airflow, Terraform, observability, contracts, CI | [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow) · [Contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) |
+| **Storage & Querying** | Columnar storage, Parquet, indexes, analytical engines, Redshift | Parquet and DuckDB in Olist |
+| **Modeling & Transformation** | Normalization, star schema, dimensional modeling, SCD, dbt | [dbt models](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) |
+| **Data Quality** | Testing, reconciliation, lineage, anomalies | [Python tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · dbt checks |
+| **Engineering Patterns** | Idempotency, error handling, reliability, observability | Batch-based re-execution in Olist |
+| **Python & SQL** | Pandas, CTEs, analytical SQL, time series, data transformations | Python ingestion and SQL transformations in Olist |
+| **AWS** | S3, EC2, IAM, VPC, RDS, DynamoDB, Lambda, Glue, Athena, CloudWatch | Coursework and hands-on labs |
 
 </details>
 
-**Next:** Spark and Databricks, Delta Lake, orchestration beyond Airflow, AWS applied to analytical workloads.
+**Currently exploring:** Apache Spark, Databricks, Delta Lake, additional orchestration approaches, and AWS analytical workloads.
+
+---
+
+## Connect
+
+I'm open to junior Data Engineering opportunities where I can apply my software engineering background to building reliable data systems.
+
+[LinkedIn](https://www.linkedin.com/in/henrique-daniel-rocha/) · [Email](mailto:henriquedan1702@gmail.com)
