@@ -114,8 +114,8 @@ I maintain a personal knowledge base with **320+ structured study notes**, conne
 - [Deciphering Data Architectures](https://www.oreilly.com/library/view/deciphering-data-architectures/9781098150754/) — James Serra
 - [Data Quality Fundamentals](https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/) — Barr Moses, Lior Gavish & Molly Vorwerck
 - [Data Engineering Design Patterns](https://www.oreilly.com/library/view/data-engineering-design/9781098165826/) — Bartosz Konieczny
-- *Python for Data Analysis* — Wes McKinney
-- *SQL for Data Analysis* — Cathy Tanimura
+- [Python for Data Analysis, 3rd Edition](https://www.oreilly.com/library/view/python-for-data/9781098104023/) — Wes McKinney
+- [SQL for Data Analysis](https://www.oreilly.com/library/view/sql-for-data/9781492088776/) — Cathy Tanimura
 
 **Courses:** Coursera Data Engineering specialization (courses 1–4) and AWS Essential.
 
