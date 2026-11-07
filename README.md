@@ -1,47 +1,32 @@
+
 # Henrique Daniel da Rocha
 
 **Software Engineer | Data Engineering | Python · SQL · AWS**
 
 [LinkedIn](https://www.linkedin.com/in/henrique-daniel-rocha/) · [Email](mailto:henriquedan1702@gmail.com)
 
-I'm a Software Engineer focused on Data Engineering, building reliable batch data pipelines with Python, SQL, dbt, DuckDB, and Apache Airflow.
+I'm a Software Engineer focused on Data Engineering. I build batch and incremental data pipelines using Python, SQL, dbt, DuckDB, and Apache Airflow, applying software engineering practices such as data contracts, automated testing, static typing, and CI.
 
-I apply software engineering principles to data systems: explicit data contracts, automated testing, static typing, safe re-execution, and maintainable architecture.
+I have taught programming in a vocational Systems Development program and am seeking my first professional role in Data Engineering.
 
-I have also taught programming in a vocational Systems Development program and am currently seeking my first professional opportunity in Data Engineering.
+## Technical Skills
 
-**Education:** Software Engineering.
-
-**Start here:** [Olist Delivery Review Pipeline](https://github.com/henriquerochaa/olist-delivery-review-pipeline) — my most complete project, with automated tests, documented architectural decisions, and known limitations.
-
----
-
-## Technical Focus
-
-- **Software Engineering:** Python, Django, Django REST Framework, backend development, automated testing, static typing, CI
-- **Data Engineering:** ETL/ELT, batch pipelines, incremental ingestion, orchestration, data quality
-- **Data Architecture:** dimensional modeling, data grain, medallion architecture, data warehousing, data lakes, lakehouse concepts
-- **Technologies:** Python, SQL, Airflow, dbt, DuckDB, PostgreSQL, Parquet, GitHub Actions
-- **Cloud:** AWS (S3, IAM, VPC, RDS, Glue, Athena, Lambda) — coursework and hands-on labs
-
----
+- **Data Engineering:** ETL/ELT, batch and incremental ingestion, data quality, orchestration, dimensional modeling
+- **Languages & tools:** Python, SQL, Pandas, dbt, DuckDB, PostgreSQL, Parquet, Apache Airflow
+- **Software Engineering:** automated tests, static typing, Git, GitHub Actions, Django, Django REST Framework
+- **Cloud:** AWS (S3, IAM, VPC, RDS, Glue, Athena, Lambda) through coursework and hands-on labs
 
 ## Featured Projects
 
 ### [Olist Delivery Review Pipeline](https://github.com/henriquerochaa/olist-delivery-review-pipeline)
 
-**End-to-end batch data pipeline | Data Quality · Orchestration · Analytics**
+**Batch pipeline · Data contracts · dbt · Airflow · PostgreSQL**
 
-**Problem:** How does delivery performance relate to customer review scores?
+Analyzes how delivery performance relates to customer review scores using eight public Olist datasets (550,759 source rows).
 
-Built a batch data pipeline processing 8 public Olist datasets containing 550,759 source rows.
-
-**Results:**
-- Late deliveries average **2.27 stars**, compared with **4.29** for orders delivered before the estimated date, across an analysis of 99,441 orders.
-- Orders without reviews (768) or delivery dates (2,965) are classified separately rather than silently discarded.
-- Results are descriptive, not causal.
-
-**Architecture**
+- Across 99,441 orders, late deliveries averaged **2.27 stars**, versus **4.29** for deliveries before the estimated date. This is descriptive, not causal.
+- Separately classifies orders without reviews (768) or delivery dates (2,965), rather than silently dropping them.
+- Applies source contracts, automated tests, and checks before publication to PostgreSQL.
 
 ```mermaid
 flowchart LR
@@ -49,100 +34,60 @@ flowchart LR
     B --> C["Silver<br/>dbt Views"]
     C --> D["Gold<br/>dbt Tables"]
     D --> E[("PostgreSQL<br/>Neon")]
-
     F["Apache Airflow"] -.-> B
     F -.-> C
     F -.-> D
     F -.-> E
 ```
 
-**Engineering decisions**
+**Engineering focus:** validation before downstream processing, traceable batch execution, transactional publication, and least-privilege database access.
 
-- Source contracts and automated tests validate data before downstream processing.
-- Publication checks dbt execution results, rejects failed or stale Gold data, and loads PostgreSQL in a single transaction using a least-privilege role.
-- Batch identifiers support traceability and safe re-execution.
+**Known limitations:** CSV inputs are loaded into memory; concurrent runs of the same batch are not coordinated across processes.
 
-**Known limitations:** CSV files are loaded fully into memory; concurrent executions of the same batch are not coordinated across processes.
+**Evidence:** [Data contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) · [43 Python tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · [dbt models and tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) · [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow)
 
-**Evidence:** [Data Contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) · [43 Python Tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · [dbt Models & Tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) · [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow)
+### [BCB Indicators Pipeline](https://github.com/henriquerochaa/indicadores-bcb-pipeline)
 
-`Python` `Pandas` `dbt` `DuckDB` `Airflow` `PostgreSQL`
+**Incremental ingestion · Public API · Validation · Recovery**
 
----
+Ingests three Central Bank of Brazil indicators (USD PTAX, Selic target rate, and IPCA), including a re-read window to capture revisions to historical values.
 
-### [BCB Indicators Pipeline](https://github.com/henriquerochaa/bcb-indicators-pipeline)
+- Initial load: **18,613 rows**, zero rejections, and **389 months** of Gold data.
+- Reconciles Bronze, Silver, rejected, and superseded records to make data movement auditable.
+- Builds candidate Silver and Gold layers, validates them, and publishes only when checks pass; includes recovery logic for interrupted swaps.
 
-**Incremental Data Pipeline | In Development**
+```mermaid
+flowchart LR
+    A["SGS API<br/>Central Bank"] --> B["Bronze<br/>Raw Parquet per batch"]
+    B --> C["Silver candidate<br/>Typed, latest batch wins"]
+    B --> R["Rejected rows<br/>With rule"]
+    C --> D["Gold candidate<br/>Monthly indicators"]
+    C --> Q{"Checks<br/>Schema · keys · ranges · reconciliation"}
+    R --> Q
+    D --> Q
+    Q -- Pass --> P["Publish Silver + Gold"]
+    Q -- Fail --> X["Nothing published"]
+```
 
-**Problem:** Build an incremental, auditable pipeline for three Central Bank of Brazil indicators: USD PTAX, Selic target rate, and monthly IPCA.
+**Engineering focus:** watermark-based incremental ingestion, revision handling, write-audit-publish, reconciliation, and failure recovery.
 
-**Planned architecture:**
+**Known limitations:** no retry for HTTP 5xx responses (only connection retries); revisions older than the re-read window require a full reload; no scheduling yet, and concurrent runs are not supported; swaps use sequential renames rather than transactional table formats.
 
-SGS API → Bronze (append by batch) → Silver (latest valid record per key) → Gold (monthly analytical data).
+**Evidence:** [67 offline tests](https://github.com/henriquerochaa/indicadores-bcb-pipeline/tree/main/tests) · [Series contracts](https://github.com/henriquerochaa/indicadores-bcb-pipeline/blob/main/contracts/series.yaml) · [SQL queries](https://github.com/henriquerochaa/indicadores-bcb-pipeline/tree/main/queries) · [CI workflow](https://github.com/henriquerochaa/indicadores-bcb-pipeline/actions)
 
-**Planned engineering decisions**
+## Education & Continuous Learning
 
-- Rolling re-read windows and upserts keyed by `(series, date)` to capture retroactive revisions.
-- Explicit rejection tracking and batch-level reconciliation of received, accepted, and rejected records.
-- Parquet and DuckDB for a lightweight architecture, with offline tests using recorded API responses.
+- **Education:** Software Engineering
+- **Courses:** Coursera Data Engineering specialization (3 courses completed, 4th in progress); AWS Essential
+- **Study:** Data architecture, modeling, reliability, and quality, supported by a personal knowledge base of 320+ structured notes
+- **Currently exploring:** Apache Spark, Databricks, Delta Lake, and AWS analytics workloads
 
-**Implemented:** manually validated API contracts, recorded response fixtures, initial test scaffolding, CI workflow, and locked development environment.
+## Engineering Approach
 
-**Remaining for v1.0:** API client, Bronze/Silver/Gold processing, incremental and backfill commands, pipeline tests, and CI execution with recorded responses.
-
-`Python` `DuckDB` `Parquet` `GitHub Actions`
-
----
-
-## Engineering Principles
-
-**Reliability** · **Data Quality** · **Maintainability** · **Simplicity** · **Transparency**
-
-I prioritize safe re-execution, explicit data contracts, well-defined data grain, automated validation, and architectures that match actual requirements.
-
-I document known limitations and distinguish implemented functionality from planned improvements.
-
----
-
-## Continuous Learning
-
-I maintain a personal knowledge base with **320+ structured study notes**, connecting data engineering concepts to practical implementation whenever possible.
-
-### Technical Books
-
-- [Fundamentals of Data Engineering](https://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/) — Joe Reis & Matt Housley
-- [Deciphering Data Architectures](https://www.oreilly.com/library/view/deciphering-data-architectures/9781098150754/) — James Serra
-- [Data Quality Fundamentals](https://www.oreilly.com/library/view/data-quality-fundamentals/9781098112035/) — Barr Moses, Lior Gavish & Molly Vorwerck
-- [Data Engineering Design Patterns](https://www.oreilly.com/library/view/data-engineering-design/9781098165826/) — Bartosz Konieczny
-- [Python for Data Analysis, 3rd Edition](https://www.oreilly.com/library/view/python-for-data/9781098104023/) — Wes McKinney
-- [SQL for Data Analysis](https://www.oreilly.com/library/view/sql-for-data/9781492088776/) — Cathy Tanimura
-
-**Courses:** Coursera Data Engineering specialization (courses 1–4) and AWS Essential.
-
-<details>
-<summary><strong>Explore my knowledge base and applied evidence</strong></summary>
-
-| Area | Topics | Applied Evidence |
-|---|---|---|
-| **Fundamentals** | Data engineering lifecycle, requirements, security, cost, build vs. buy | Theoretical study |
-| **Architecture** | Warehouse, lake, lakehouse, mesh, fabric, medallion architecture | [Medallion layers](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) |
-| **Ingestion** | APIs, batch, streaming, ETL/ELT, CDC, Kafka, Kinesis | [Batch ingestion](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/src); incremental API ingestion in development |
-| **Orchestration & DataOps** | Airflow, Terraform, observability, contracts, CI | [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow) · [Contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) |
-| **Storage & Querying** | Columnar storage, Parquet, indexes, analytical engines, Redshift | Parquet and DuckDB in Olist |
-| **Modeling & Transformation** | Normalization, star schema, dimensional modeling, SCD, dbt | [dbt models](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) |
-| **Data Quality** | Testing, reconciliation, lineage, anomalies | [Python tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · dbt checks |
-| **Engineering Patterns** | Idempotency, error handling, reliability, observability | Batch-based re-execution in Olist |
-| **Python & SQL** | Pandas, CTEs, analytical SQL, time series, data transformations | Python ingestion and SQL transformations in Olist |
-| **AWS** | S3, EC2, IAM, VPC, RDS, DynamoDB, Lambda, Glue, Athena, CloudWatch | Coursework and hands-on labs |
-
-</details>
-
-**Currently exploring:** Apache Spark, Databricks, Delta Lake, additional orchestration approaches, and AWS analytical workloads.
-
----
+I prioritize clear data grain and contracts, repeatable processing, validation before publication, and architecture proportional to actual requirements. Each project documents implemented features, trade-offs, and known limitations.
 
 ## Connect
 
-I'm open to junior Data Engineering opportunities where I can apply my software engineering background to building reliable data systems.
+I'm open to junior Data Engineering opportunities where my software engineering background can help build reliable data systems.
 
 [LinkedIn](https://www.linkedin.com/in/henrique-daniel-rocha/) · [Email](mailto:henriquedan1702@gmail.com)
