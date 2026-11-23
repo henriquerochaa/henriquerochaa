@@ -44,7 +44,7 @@ flowchart LR
 
 **Known limitations:** CSV inputs are loaded into memory; concurrent runs of the same batch are not coordinated across processes.
 
-**Evidence:** [Data contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) · [43 Python tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · [dbt models and tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) · [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow)
+**Evidence:** [Data contracts](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/contracts) · [54 Python tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/tests) · [dbt models and tests](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/dbt_pipeline_qualidade) · [Airflow DAG](https://github.com/henriquerochaa/olist-delivery-review-pipeline/tree/main/airflow)
 
 ### [BCB Indicators Pipeline](https://github.com/henriquerochaa/indicadores-bcb-pipeline)
 
